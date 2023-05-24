@@ -1,10 +1,10 @@
 "use client";
-import MessagesContainer from "@/containers/Messages";
-import RoomsContainer from "@/containers/Rooms";
-import { useSocket } from "@/context/socket.context";
+import MessagesContainer from "@/app/containers/Messages";
+import RoomsContainer from "@/app/containers/Rooms";
+import { useSocket } from "@/app/context/socket.context";
 import { useEffect, useRef } from "react";
-import styles from "../styles/Home.module.css";
-
+import styles from "@/app/styles/Home.module.css";
+import "./globals.css";
 export default function Home() {
   const { socket, username, setUsername } = useSocket();
   const usernameRef = useRef<HTMLInputElement>(null);

@@ -1,7 +1,7 @@
-import EVENTS from "@/config/events";
-import { useSocket } from "@/context/socket.context";
+import EVENTS from "@/app/config/events";
+import { useSocket } from "@/app/context/socket.context";
 import { useEffect, useRef } from "react";
-import styles from "../styles/Messages.module.css";
+import styles from "@/app/styles/Messages.module.css";
 
 const MessagesContainer = () => {
 	const { messages, socket, roomId, username, setMessages } = useSocket();

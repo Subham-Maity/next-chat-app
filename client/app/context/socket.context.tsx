@@ -1,8 +1,8 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client";
-import { SOCKET_URL } from "../config/default";
-import EVENTS from "@/config/events";
+import { SOCKET_URL } from "@/app/config/default";
+import EVENTS from "@/app/config/events";
 
 type Message = {
 	message: string;

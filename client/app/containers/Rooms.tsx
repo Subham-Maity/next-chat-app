@@ -1,7 +1,7 @@
-import EVENTS from "@/config/events";
-import { useSocket } from "@/context/socket.context";
+import EVENTS from "@/app/config/events";
+import { useSocket } from "@/app/context/socket.context";
 import { useRef } from "react";
-import styles from "../styles/Rooms.module.css";
+import styles from "@/app/styles/Rooms.module.css";
 
 const RoomsContainer = () => {
 	const { socket, roomId, rooms } = useSocket();
@@ -30,7 +30,7 @@ const RoomsContainer = () => {
 		<nav className={styles.wrapper}>
 			<div className={styles.createRoomWrapper}>
 				<input placeholder="Room Name" ref={newRoomRef} />
-				<button className="cta text-5xl" onClick={handleNewRoom}>
+				<button className="cta " onClick={handleNewRoom}>
 					Create Room
 				</button>
 			</div>

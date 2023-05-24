@@ -1,3 +1,6 @@
+'use client';
+// page.tsx
+
 "use client";
 import MessagesContainer from "@/app/containers/Messages";
 import RoomsContainer from "@/app/containers/Rooms";
@@ -26,24 +29,26 @@ export default function Home() {
   }, []);
 
   return (
+      // wrap the elements with a div
       <div>
         {!username ? (
             <div className="flex items-center justify-center min-h-screen bg-gray-200">
-              <div className="bg-white p-8 rounded">
+              <div className="bg-white p-8 rounded-lg shadow-lg">
                 <input
-                    className="mb-4 px-4 py-2 border border-gray-300 rounded"
+                    className="mb-4 px-4 py-2 border border-gray-300 rounded-lg shadow-lg"
                     placeholder="Username"
                     ref={usernameRef}
                 />
                 <button
                     onClick={handleUsername}
-                    className="px-4 ml-2 py-2 text-white bg-pink-500 rounded"
+                    className="px-4 ml-2 py-2 text-white bg-pink-500 rounded-lg shadow-lg"
                 >
                   Set Username
                 </button>
               </div>
             </div>
         ) : (
+            // wrap the elements with a div
             <div className="flex overflow-hidden">
               <RoomsContainer />
               <MessagesContainer />
@@ -52,3 +57,5 @@ export default function Home() {
       </div>
   );
 }
+
+

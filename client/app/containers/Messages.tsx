@@ -1,7 +1,6 @@
 import EVENTS from "@/app/config/events";
 import { useSocket } from "@/app/context/socket.context";
 import { useEffect, useRef } from "react";
-import styles from "@/app/styles/Messages.module.css";
 
 const MessagesContainer = () => {
 	const { messages, socket, roomId, username, setMessages } = useSocket();
@@ -44,30 +43,36 @@ const MessagesContainer = () => {
 	if (!roomId) return <div />;
 
 	return (
-		<div className={styles.wrapper}>
-			<div className={styles.messageList}>
+		<div className="flex-1 h-screen flex flex-col">
+			<div className="overflow-y-scroll p-4 flex-grow">
 				{messages?.map(({ message, username, time }, index) => (
-					<div key={index} className={styles.message}>
+					<div key={index} className="bg-white rounded mb-4 p-4 border">
 						<div>
-							<span className={styles.messageSender}>
-								{username} - {time}
-							</span>
-							<div className={styles.messageBody}>{message}</div>
+              <span className="text-sm">
+                {username} - {time}
+              </span>
+							<div className="text-base">{message}</div>
 						</div>
 					</div>
 				))}
 				<div ref={messagesEndRef} />
 			</div>
 
-			<div className={styles.messageBox}>
-				<textarea
-					placeholder="Type a message..."
-					rows={1}
-					ref={newMessageRef}
-				/>
+			<div className="bg-purple-500 p-4">
+        <textarea
+			className="w-full p-4 text-base rounded"
+			placeholder="Type a message..."
+			rows={1}
+			ref={newMessageRef}
+		/>
 			</div>
 
-			<button onClick={handleMessageSend}>Send</button>
+			<button
+				onClick={handleMessageSend}
+				className="px-4 py-2 mt-2 text-white bg-blue-500 rounded"
+			>
+				Send
+			</button>
 		</div>
 	);
 };

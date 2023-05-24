@@ -1,4 +1,5 @@
 'use client';
+
 // page.tsx
 
 "use client";
@@ -29,7 +30,6 @@ export default function Home() {
   }, []);
 
   return (
-      // wrap the elements with a div
       <div>
         {!username ? (
             <div className="flex items-center justify-center min-h-screen bg-gray-200">
@@ -48,7 +48,6 @@ export default function Home() {
               </div>
             </div>
         ) : (
-            // wrap the elements with a div
             <div className="flex overflow-hidden">
               <RoomsContainer />
               <MessagesContainer />
@@ -57,5 +56,4 @@ export default function Home() {
       </div>
   );
 }
-
 

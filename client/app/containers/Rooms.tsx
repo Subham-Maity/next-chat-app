@@ -2,14 +2,15 @@
 // Room.tsx
 import EVENTS from "@/app/config/events";
 import { useSocket } from "@/app/context/socket.context";
-import { useRef, useState } from "react"; // import useState hook
+import { useRef, useState, useEffect } from "react"; // import useEffect hook
 import { motion } from "framer-motion"; // import motion component from Framer Motion
-import { FiMoreVertical } from "react-icons/fi"; // import more icon from React Icon Library
+import { FiMenu, FiChevronLeft } from "react-icons/fi"; // import menu and chevron icons from React Icon Library
 
 const RoomsContainer = () => {
 	const { socket, roomId, rooms } = useSocket();
 	const newRoomRef = useRef<HTMLInputElement>(null);
 	const [showMenu, setShowMenu] = useState(false); // create a state variable to toggle the menu
+	const [showHidebar, setShowHidebar] = useState(false); // create a state variable to toggle the hidebar
 
 	function handleNewRoom() {
 		// get the room name
@@ -35,9 +36,35 @@ const RoomsContainer = () => {
 		setShowMenu(!showMenu);
 	}
 
+	function handleToggleHidebar() {
+		// toggle the visibility of the room container using the state variable
+		setShowHidebar(!showHidebar);
+	}
+
+	useEffect(() => {
+		// get the body element
+		const body = document.querySelector("body");
+
+		if (showHidebar) {
+			// add a class to hide overflow-x when hidebar is toggled
+			body.classList.add("hidebar");
+		} else {
+			// remove the class when hidebar is not toggled
+			body.classList.remove("hidebar");
+		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [showHidebar]);
+
 	return (
-		// add dark theme and rounded corners to the container
-		<nav className="w-64 bg-gray-800 h-screen p-4 rounded-lg">
+		// add motion.nav component with animation props
+		<motion.nav
+			className="w-64 bg-gray-800 h-screen p-4 rounded-lg"
+			initial={{ width: 0 }} // initial state of width
+			animate={{ width: showHidebar ? 0 : "auto" }} // final state of width based on showHidebar value
+			transition={{ duration: 0.5 }} // duration of animation
+			variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 }}} // variants for opacity based on showHidebar value
+		>
 
 			<div className="pb-4 border-b border-gray-700">
 
@@ -55,7 +82,14 @@ const RoomsContainer = () => {
 				</button>
 			</div>
 
-			<div className={`mt-4 overflow-y-auto ${showMenu ? "block" : "hidden"} md:block`}>
+			{/* add motion.div component with animation props */}
+			<motion.div
+				className={`mt-4 overflow-y-auto ${showMenu ? "block" : "hidden"} md:block`}
+				initial={{ height: 0 }} // initial state of height
+				animate={{ height: showMenu ? "auto" : 0 }} // final state of height based on showMenu value
+				transition={{ duration: 0.5 }} // duration of animation
+				variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 }}} // variants for opacity based on showMenu value
+			>
 				<ul className="list-none">
 					{Object.keys(rooms).map((key) => (
 
@@ -80,15 +114,23 @@ const RoomsContainer = () => {
 						</motion.li>
 					))}
 				</ul>
-			</div>
+			</motion.div>
 
-
-			<button onClick={handleToggleMenu} className="block md:hidden">
-				<FiMoreVertical />
+			{/* move button element with menu icon to the end of nav component */}
+			<button onClick={handleToggleMenu} className="block text-white">
+				{/* add CSS properties to position and size the menu icon */}
+				<FiMenu size={32} style={{ position: "absolute", top: "10px", left: "10px", zIndex: "10" }} />
 			</button>
-		</nav>
+
+			{/* add button element with hidebar icon */}
+			<button onClick={handleToggleHidebar} className="block text-white">
+				{/* add CSS properties to position and size the hidebar icon */}
+				<FiChevronLeft size={32} style={{ position: "absolute", top: "10px", right: "-10px", zIndex: "10" }} />
+			</button>
+		</motion.nav>
 
 	);
 };
 
 export default RoomsContainer;
+

@@ -1,6 +1,4 @@
 'use client';
-// Messages.tsx
-// Messages.tsx
 import EVENTS from "@/app/config/events";
 import { useSocket } from "@/app/context/socket.context";
 import { useEffect, useRef } from "react";
@@ -51,7 +49,8 @@ const MessagesContainer = () => {
 		// add dark theme and rounded corners to the container
 		<div className="flex-1 h-screen flex flex-col bg-gray-900 rounded-lg">
 
-			<div className="overflow-y-scroll p-4 flex-grow">
+			{/* add flexbox utilities to center and margin the message box */}
+			<div className="overflow-y-scroll p-4 flex-grow mx-auto md:w-2/3 lg:w-1/2">
 				{messages?.map(({ message, username, time }, index) => (
 					// use motion component to animate each message
 					<motion.div
@@ -67,7 +66,8 @@ const MessagesContainer = () => {
               <span className="text-sm">
                 {username} - {time}
               </span>
-							<div className="text-base">{message}</div>
+							{/* change the text color and shape */}
+							<div className="text-base bg-gray-800 text-gray-200 rounded-lg p-2 shadow-lg">{message}</div>
 						</div>
 					</motion.div>
 				))}
@@ -104,5 +104,3 @@ const MessagesContainer = () => {
 };
 
 export default MessagesContainer;
-
-

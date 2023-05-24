@@ -39,10 +39,10 @@ npm run dev
 yarn dev
 ```
 
-The backend server will run on port 5000 by default. You can change this in the `backend/config/default.ts` file.
+The backend server will run on port 5002 by default. You can change this in the `backend/config/default.ts` file.
 
 Now, open another terminal window and navigate to the frontend folder. Install the dependencies and start the frontend server:
-> Make sure server should be running on port 5000 before starting frontend server
+> Make sure server should be running on port 5002 before starting frontend server
 
 ```bash
 cd frontend

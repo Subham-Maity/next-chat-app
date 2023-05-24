@@ -30,7 +30,7 @@ const RoomsContainer = () => {
 		<nav className={styles.wrapper}>
 			<div className={styles.createRoomWrapper}>
 				<input placeholder="Room Name" ref={newRoomRef} />
-				<button className="cta" onClick={handleNewRoom}>
+				<button className="cta text-5xl" onClick={handleNewRoom}>
 					Create Room
 				</button>
 			</div>

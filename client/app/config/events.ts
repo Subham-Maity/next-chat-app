@@ -1,3 +1,5 @@
+// /config/events.ts
+
 const EVENTS = {
 	connection: "connection",
 	CLIENT: {
@@ -9,6 +11,8 @@ const EVENTS = {
 		ROOMS: "ROOMS",
 		JOINED_ROOM: "JOINED_ROOM",
 		ROOM_MESSAGE: "ROOM_MESSAGE",
+		ROOM_ADMIN: "ROOM_ADMIN", // add this event
+		ROOM_TIME_LIMIT: "ROOM_TIME_LIMIT", // add this event
 	},
 };
 

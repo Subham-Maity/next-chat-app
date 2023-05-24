@@ -5,19 +5,23 @@ import { useRef } from "react";
 const RoomsContainer = () => {
 	const { socket, roomId, rooms } = useSocket();
 	const newRoomRef = useRef<HTMLInputElement>(null);
+	const timeLimitRef = useRef<HTMLInputElement>(null);
 
 	function handleNewRoom() {
-		// get the room name
 		const roomName = newRoomRef.current?.value || "";
 
 		if (!String(roomName).trim()) return;
 
-		// emit room created event
-		socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName });
+		const time = Number(timeLimitRef.current?.value) || 0;
 
-		// set room name input to empty string
+		if (time <= 0) return;
+
+		socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName, time }); // Pass the time value
+
 		newRoomRef.current!.value = "";
+		timeLimitRef.current!.value = "";
 	}
+
 
 	function handleJoinRoom(key: string) {
 		if (key === roomId) return;
@@ -32,6 +36,14 @@ const RoomsContainer = () => {
 					className="w-full px-4 py-2 mb-2 border border-gray-300 rounded"
 					placeholder="Room Name"
 					ref={newRoomRef}
+				/>
+				<input
+					className="w-full px-4 py-2 mb-2 border border-gray-300 rounded"
+					placeholder="Time Limit (minutes)"
+					ref={timeLimitRef}
+					type="number"
+					min="1"
+					max="60"
 				/>
 				<button
 					onClick={handleNewRoom}

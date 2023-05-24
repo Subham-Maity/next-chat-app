@@ -4,6 +4,7 @@ import io, { Socket } from "socket.io-client";
 import { SOCKET_URL } from "@/app/config/default";
 import EVENTS from "@/app/config/events";
 
+
 type Message = {
 	message: string;
 	username: string;
@@ -18,6 +19,8 @@ interface SocketContext {
 	rooms: Record<string, { name: string }>;
 	messages?: Message[];
 	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+	admin?: string; // Admin of the room
+	timeLimit?: number; // Time limit of the room
 }
 
 interface Props {
@@ -37,7 +40,9 @@ export const SocketProvider = ({ children }: Props) => {
 	const [username, setUsername] = useState("");
 	const [roomId, setRoomId] = useState("");
 	const [rooms, setRooms] = useState({});
-	const [messages, setMessages] = useState<Message[]>([]);
+	const [admin, setAdmin] = useState(""); // add this state variable
+	const [timeLimit, setTimeLimit] = useState(0); // add this state variable
+	const [messages, setMessages] = useState<Message[]>([]); // add a default value of an
 
 	socket.on(EVENTS.SERVER.ROOMS, (name: string) => {
 		setRooms(name);
@@ -55,12 +60,14 @@ export const SocketProvider = ({ children }: Props) => {
 	}, []);
 
 	useEffect(() => {
-		socket.on(EVENTS.SERVER.ROOM_MESSAGE, (message: Message) => {
-			if (!document.hasFocus()) {
-				document.title = "New message...";
-			}
+		// add this listener for ROOM_ADMIN event
+		socket.on(EVENTS.SERVER.ROOM_ADMIN, (admin: string) => {
+			setAdmin(admin);
+		});
 
-			setMessages((messages) => [...messages, message]);
+		// add this listener for ROOM_TIME_LIMIT event
+		socket.on(EVENTS.SERVER.ROOM_TIME_LIMIT, (timeLimit: number) => {
+			setTimeLimit(timeLimit);
 		});
 	}, [socket]);
 
@@ -74,7 +81,10 @@ export const SocketProvider = ({ children }: Props) => {
 				roomId,
 				messages,
 				setMessages,
-			}}>
+				admin, // add this value
+				timeLimit, // add this value
+			}}
+		>
 			{children}
 		</SocketContext.Provider>
 	);

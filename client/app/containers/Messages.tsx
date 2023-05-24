@@ -2,8 +2,10 @@ import EVENTS from "@/app/config/events";
 import { useSocket } from "@/app/context/socket.context";
 import { useEffect, useRef } from "react";
 
+import Timer from "@/app/components/Timer"; // import Timer component
+
 const MessagesContainer = () => {
-	const { messages, socket, roomId, username, setMessages } = useSocket();
+	const { messages, socket, roomId, username, setMessages, admin } = useSocket(); // use useSocket hook and destructure admin
 	const newMessageRef = useRef<HTMLTextAreaElement>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -73,6 +75,10 @@ const MessagesContainer = () => {
 			>
 				Send
 			</button>
+
+			{admin === username && (
+				<Timer />
+			)}
 		</div>
 	);
 };

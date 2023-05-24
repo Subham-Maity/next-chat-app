@@ -37,7 +37,7 @@ export default function Home() {
                 />
                 <button
                     onClick={handleUsername}
-                    className="px-4 py-2 text-white bg-pink-500 rounded"
+                    className="px-4 ml-2 py-2 text-white bg-pink-500 rounded"
                 >
                   Set Username
                 </button>

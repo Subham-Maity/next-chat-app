@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.6.1",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.14",
     "@types/node": "20.2.3",
     "@types/react": "18.2.6",

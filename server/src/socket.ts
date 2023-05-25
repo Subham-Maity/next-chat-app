@@ -1,4 +1,3 @@
-
 import { nanoid } from "nanoid";
 import { Server, Socket } from "socket.io";
 import logger from "./utils/logger";
@@ -22,107 +21,137 @@ const EVENTS = {
 	},
 };
 
-const rooms: Record<string, { name: string }> = {};
+const rooms: Record<string, { name: string; clients: Set<string> }> = {};
 
 function socket({ io }: { io: Server }) {
-
-// Initialize the timer value to null
+	// Initialize the timer value to null
 	let timerValue = null;
-// Initialize an interval function to null
+	// Initialize an interval function to null
 	let intervalFunction = null;
-// Initialize a set to store the connected clients
-	const connectedClients = new Set();
 
 	io.on(EVENTS.connection, (socket) => {
+		// Log the client's id when they connect
+		logger.info(`New client connected with id:${socket.id}`);
 
-// Listen for the client setting a timer for a room
-		socket.on(EVENTS.CLIENT.SET_TIMER, (duration) => {
-// Set the timer value to the received duration
-			timerValue = duration;
-// Emit the timer value to all clients in the room
-			io.emit(EVENTS.SERVER.TIMER_SET, duration);
-// Check if there are two clients connected in the room
-			if (connectedClients.size === 2) {
-// Clear any existing interval function
-				if (intervalFunction) {
-					clearInterval(intervalFunction);
-				}
-// Set the current time to the timer value
-				let currentTime = timerValue;
-// Create a new interval function that runs every second
-				intervalFunction = setInterval(() => {
-// Decrement the current time by one
-					currentTime -= 1;
-// Emit the current time to all clients in the room
-					io.emit(EVENTS.SERVER.TIMER_UPDATE, currentTime);
-// Check if the current time is zero
-					if (currentTime === 0) {
-// Clear the interval function
-						clearInterval(intervalFunction);
-// Emit the conversation ended event to all clients in the room
-						io.emit(EVENTS.SERVER.CONVERSATION_ENDED);
-					}
-				}, 1000);
-			}
-		});
+		// Emit the rooms object to the client when they connect
+		socket.emit(EVENTS.SERVER.ROOMS, rooms);
 
-// Listen for a client joining a room
-		socket.on(EVENTS.CLIENT.JOIN_ROOM, (roomId) => {
+		// Listen for the client creating a new room
+		socket.on(EVENTS.CLIENT.CREATE_ROOM, ({ roomName }) => {
+			// Create a roomId
+			const roomId = nanoid();
 
-// Join the room with the given roomId
+			// Add a new room to rooms object with an empty set of clients
+			rooms[roomId] = { name: roomName, clients: new Set() };
+
+			// Join the room with the given roomId
 			socket.join(roomId);
 
-// Emit an event back to room creator that they have joined the room
+			// Add the client's id to the room's clients set
+			rooms[roomId].clients.add(socket.id);
+
+			// Broadcast an event saying that a new room has been created
+			socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
+
+			// Emit back to the room creator with all the rooms
+			socket.emit(EVENTS.SERVER.ROOMS, rooms);
+
+			// Emit an event back to room creator that they have joined the room
 			socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
+		});
 
-// Check if there are two clients connected in the room and the timer value is not null
-			if (connectedClients.size ===2 && timerValue !== null) {
+		// Listen for a client joining a room
+		socket.on(EVENTS.CLIENT.JOIN_ROOM, (roomId) => {
+			// Check if the room exists and is not full
+			if (rooms[roomId] && rooms[roomId].clients.size < 2) {
+				// Join the room with the given roomId
+				socket.join(roomId);
 
-// Clear any existing interval function
-				if (intervalFunction) {
-					clearInterval(intervalFunction);
-				}
+				// Add the client's id to the room's clients set
+				rooms[roomId].clients.add(socket.id);
 
-// Set the current time to the timer value
-				let currentTime = timerValue;
+				// Emit an event back to room creator that they have joined the room
+				socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
 
-// Create a new interval function that runs every second
-				intervalFunction = setInterval(() => {
+				// Check if there is a timer value for the room
+				if (timerValue !== null) {
+					// Emit the timer value to all clients in the room
+					io.to(roomId).emit(EVENTS.SERVER.TIMER_SET, timerValue);
 
-// Decrement the current time by one
-					currentTime -=1;
-
-// Emit the current time to all clients in the room
-					io.emit(EVENTS.SERVER.TIMER_UPDATE, currentTime);
-
-// Check if the current time is zero
-					if (currentTime ===0) {
-
-// Clear the interval function
+					// Clear any existing interval function
+					if (intervalFunction) {
 						clearInterval(intervalFunction);
-
-// Emit the conversation ended event to all clients in the room
-						io.emit(EVENTS.SERVER.CONVERSATION_ENDED);
 					}
-				},1000);
-			}
 
+					// Set the current time to the timer value
+					let currentTime = timerValue;
+
+					// Create a new interval function that runs every second
+					intervalFunction = setInterval(() => {
+						// Decrement the current time by one
+						currentTime -= 1;
+
+						// Emit the current time to all clients in the room
+						io.to(roomId).emit(EVENTS.SERVER.TIMER_UPDATE, currentTime);
+
+						// Check if the current time is zero
+						if (currentTime === 0) {
+							// Clear the interval function
+							clearInterval(intervalFunction);
+
+							// Emit the conversation ended event to all clients in the room
+							io.to(roomId).emit(EVENTS.SERVER.CONVERSATION_ENDED);
+						}
+					}, 1000);
+				}
+			} else {
+				// Emit an error message to the client who tried to join an invalid or full room
+				socket.emit("error", "The room does not exist or is full.");
+			}
 		});
 
-// Listen for a client requesting a timer for a room
+		// Listen for a client requesting a timer for a room
 		socket.on(EVENTS.CLIENT.REQUEST_TIMER, () => {
-
-// Check if there is a timer value for the room
+			// Check if there is a timer value for the room
 			if (timerValue !== null) {
-
-// Emit the timer value to the client who requested it
-				socket.emit(EVENTS.SERVER.TIMER_SET,timerValue);
+				// Emit the timer value to the client who requested it
+				socket.emit(EVENTS.SERVER.TIMER_SET, timerValue);
 			}
-
 		});
 
+		// Listen for a client setting a timer for a room
+		socket.on(EVENTS.CLIENT.SET_TIMER, (duration) => {
+			// Set the timer value to the received duration
+			timerValue = duration;
+			// Emit the timer value to all clients in the room
+			io.emit(EVENTS.SERVER.TIMER_SET, duration);
+		});
+
+		// Listen for a client sending a message to a room
+		socket.on(
+			EVENTS.CLIENT.SEND_ROOM_MESSAGE,
+			({ roomId, message, username }) => {
+				const time = new Date(); // get the current time
+
+				// emit an event to all clients in the room with this roomId
+				io.to(roomId).emit(EVENTS.SERVER.ROOM_MESSAGE, {
+					message,
+					username,
+					time: `${time.getHours()}:${time.getMinutes()}`,
+				});
+			}
+		);
+
+		socket.on("disconnect", () => {
+			console.log("Client disconnected");
+			// Remove the client's id from any rooms they joined
+			for (const roomId in rooms) {
+				if (rooms[roomId].clients.has(socket.id)) {
+					rooms[roomId].clients.delete(socket.id);
+				}
+			}
+		});
 	});
 }
 
 export default socket;
-

@@ -22,7 +22,11 @@ const RoomsContainer = () => {
 	function handleJoinRoom(key: string) {
 		if (key === roomId) return;
 
+		// emit join room event
 		socket.emit(EVENTS.CLIENT.JOIN_ROOM, key);
+
+		// emit request timer event
+		socket.emit(EVENTS.CLIENT.REQUEST_TIMER);
 	}
 
 	return (

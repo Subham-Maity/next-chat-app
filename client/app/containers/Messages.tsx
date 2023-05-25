@@ -3,7 +3,8 @@ import { useSocket } from "@/app/context/socket.context";
 import { useEffect, useRef } from "react";
 
 const MessagesContainer = () => {
-	const { messages, socket, roomId, username, setMessages } = useSocket();
+	const { messages, socket, roomId, username, setMessages, setTimer } =
+		useSocket();
 	const newMessageRef = useRef<HTMLTextAreaElement>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +40,17 @@ const MessagesContainer = () => {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [messages]);
+
+	useEffect(() => {
+		// Prompt user to specify duration of conversation when creating a new room
+		if (!roomId) {
+			const duration = prompt(
+				"Specify the duration of the conversation (in minutes):"
+			);
+			// Send the timer duration to the server
+			socket.emit(EVENTS.CLIENT.SET_TIMER, duration);
+		}
+	}, [roomId, socket]);
 
 	if (!roomId) return <div />;
 

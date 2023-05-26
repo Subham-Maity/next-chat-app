@@ -60,7 +60,7 @@ const RoomsContainer = () => {
 				{/* Add an input for the timer value */}
 				<input
 					className="w-full px-4 py-2 mb-2 border border-gray-300 rounded"
-					placeholder="Timer (in minutes)"
+					placeholder="Set Timer (in seconds)"
 					type="number"
 					min="1"
 					ref={timerRef}

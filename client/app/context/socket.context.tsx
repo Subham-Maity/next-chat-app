@@ -1,8 +1,10 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import io, { Socket } from "socket.io-client";
+import io from "socket.io-client"; // Add this line
 import { SOCKET_URL } from "@/app/config/default";
 import EVENTS from "@/app/config/events";
+import { Socket } from "socket.io-client";
+
 
 type Message = {
 	message: string;
@@ -18,6 +20,8 @@ interface SocketContext {
 	rooms: Record<string, { name: string }>;
 	messages?: Message[];
 	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+	timer?: number | null; // Change this line
+	setTimer: React.Dispatch<React.SetStateAction<number | null>>; // Change this line
 }
 
 interface Props {
@@ -31,6 +35,8 @@ export const SocketContext = createContext<SocketContext>({
 	rooms: {},
 	messages: [],
 	setMessages: () => {},
+	timer: null,
+	setTimer: () => {},
 });
 
 export const SocketProvider = ({ children }: Props) => {
@@ -38,6 +44,7 @@ export const SocketProvider = ({ children }: Props) => {
 	const [roomId, setRoomId] = useState("");
 	const [rooms, setRooms] = useState({});
 	const [messages, setMessages] = useState<Message[]>([]);
+	const [timer, setTimer] = useState<number | null>(null); // Change this line
 
 	socket.on(EVENTS.SERVER.ROOMS, (name: string) => {
 		setRooms(name);
@@ -46,6 +53,7 @@ export const SocketProvider = ({ children }: Props) => {
 	socket.on(EVENTS.SERVER.JOINED_ROOM, (id: string) => {
 		setRoomId(id);
 		setMessages([]);
+		setTimer(null);
 	});
 
 	useEffect(() => {
@@ -62,6 +70,17 @@ export const SocketProvider = ({ children }: Props) => {
 
 			setMessages((messages) => [...messages, message]);
 		});
+		socket.on(EVENTS.SERVER.TIMER_SET, (duration: number) => {
+			setTimer(duration * 60); // Convert minutes to seconds for easier calculation
+		});
+		socket.on(EVENTS.SERVER.TIMER_UPDATE, (currentTime: number) => {
+			setTimer(currentTime); // Update the timer value with the current time from the server
+		});
+		socket.on(EVENTS.SERVER.CONVERSATION_ENDED, () => {
+			alert("The conversation has ended."); // Alert the user that the conversation has ended
+			setTimer(null); // Reset the timer value to null
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [socket]);
 
 	return (
@@ -74,12 +93,15 @@ export const SocketProvider = ({ children }: Props) => {
 				roomId,
 				messages,
 				setMessages,
+				timer,
+				setTimer,
 			}}>
 			{children}
 		</SocketContext.Provider>
 	);
 };
 
+// Remove this line
 export default SocketProvider;
 
 export const useSocket = () => {

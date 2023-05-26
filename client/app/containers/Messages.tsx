@@ -3,7 +3,8 @@ import { useSocket } from "@/app/context/socket.context";
 import { useEffect, useRef } from "react";
 
 const MessagesContainer = () => {
-	const { messages, socket, roomId, username, setMessages } = useSocket();
+	const { messages, socket, roomId, username, setMessages, setTimer } =
+		useSocket();
 	const newMessageRef = useRef<HTMLTextAreaElement>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -20,16 +21,7 @@ const MessagesContainer = () => {
 			username,
 		});
 
-		const date = new Date();
-
-		setMessages([
-			...(messages as any),
-			{
-				message,
-				username: "You",
-				time: `${date.getHours()}:${date.getMinutes()}`,
-			},
-		]);
+		// No need to add the message to the state here as it will be added when received from the server
 
 		newMessageRef.current!.value = "";
 	}
@@ -39,6 +31,10 @@ const MessagesContainer = () => {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [messages]);
+
+	useEffect(() => {
+		// No need to prompt user for timer value here as it will be done in RoomsContainer
+	}, [roomId, socket]);
 
 	if (!roomId) return <div />;
 
@@ -78,3 +74,4 @@ const MessagesContainer = () => {
 };
 
 export default MessagesContainer;
+

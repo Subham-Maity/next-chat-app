@@ -153,6 +153,9 @@ function socket({ io }: { io: Server }) {
 					username,
 					time: `${time.getHours()}:${time.getMinutes()}`,
 				});
+
+				// Log the message and sender in terminal
+				logger.info(`${username} sent "${message}" in ${rooms[roomId].name}`);
 			}
 		);
 

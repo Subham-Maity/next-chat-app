@@ -21,16 +21,7 @@ const MessagesContainer = () => {
 			username,
 		});
 
-		const date = new Date();
-
-		setMessages([
-			...(messages as any),
-			{
-				message,
-				username: "You",
-				time: `${date.getHours()}:${date.getMinutes()}`,
-			},
-		]);
+		// No need to add the message to the state here as it will be added when received from the server
 
 		newMessageRef.current!.value = "";
 	}
@@ -42,14 +33,7 @@ const MessagesContainer = () => {
 	}, [messages]);
 
 	useEffect(() => {
-		// Prompt user to specify duration of conversation when creating a new room
-		if (!roomId) {
-			const duration = prompt(
-				"Specify the duration of the conversation (in minutes):"
-			);
-			// Send the timer duration to the server
-			socket.emit(EVENTS.CLIENT.SET_TIMER, duration);
-		}
+		// No need to prompt user for timer value here as it will be done in RoomsContainer
 	}, [roomId, socket]);
 
 	if (!roomId) return <div />;
@@ -90,3 +74,4 @@ const MessagesContainer = () => {
 };
 
 export default MessagesContainer;
+

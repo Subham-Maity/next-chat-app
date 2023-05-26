@@ -1,10 +1,11 @@
+
 "use client";
 
 import MessagesContainer from "@/app/containers/Messages";
 import RoomsContainer from "@/app/containers/Rooms";
 import { useSocket } from "@/app/context/socket.context";
 import { useEffect, useRef } from "react";
-
+import EVENTS from "@/app/config/events";
 export default function Home() {
   const { socket, username, setUsername, timer } = useSocket(); // Add timer here
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -23,6 +24,18 @@ export default function Home() {
     if (usernameRef) {
       usernameRef.current!.value = localStorage.getItem("username") || "";
     }
+
+    // Add a listener for conversation ended event
+    socket.on(EVENTS.SERVER.CONVERSATION_ENDED, () => {
+      // Alert the user that the conversation is over and they are disconnected from the room
+      alert("The conversation has ended. You are disconnected from the room.");
+    });
+
+    // Add a cleanup function to remove the listener when component unmounts
+    return () => {
+      socket.off(EVENTS.SERVER.CONVERSATION_ENDED);
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

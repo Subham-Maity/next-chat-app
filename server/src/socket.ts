@@ -58,6 +58,9 @@ function socket({ io }: { io: Server }) {
 
 			// Emit an event back to room creator that they have joined the room
 			socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
+
+			// Log the room creation and timer value in the terminal
+			logger.info(`${socket.id} created ${roomName} with timer ${timerValue}`);
 		});
 
 		// Listen for a client joining a room
@@ -101,9 +104,20 @@ function socket({ io }: { io: Server }) {
 
 							// Emit the conversation ended event to all clients in the room
 							io.to(roomId).emit(EVENTS.SERVER.CONVERSATION_ENDED);
+
+							// Log the conversation end and disconnection in the terminal
+							logger.info(`Conversation ended in ${rooms[roomId].name}`);
+							logger.info(
+								`${Array.from(rooms[roomId].clients).join(
+									" and "
+								)} disconnected from ${rooms[roomId].name}`
+							);
 						}
 					}, 1000);
 				}
+
+				// Log the join event in the terminal
+				logger.info(`${socket.id} joined ${rooms[roomId].name}`);
 			} else {
 				// Emit an error message to the client who tried to join an invalid or full room
 				socket.emit("error", "The room does not exist or is full.");

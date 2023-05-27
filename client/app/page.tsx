@@ -64,7 +64,7 @@ export default function Home() {
               <div className="flex flex-col flex-grow relative">
                 {/* Add some Tailwind classes to position the timer on the right side of the screen */}
                 {timer && (
-                    <div className="flex justify-end m-4 text-white bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-300/50 to-indigo-900/45 px-4 py-2 rounded-lg shadow-lg" >
+                    <div className="absolute top-0 right-0 m-4 text-white bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-300/50 to-indigo-900/45 px-4 py-2 rounded-lg shadow-lg" >
                       Time remaining: {Math.floor(timer / 60)}m {timer % 60}s{" "}
                     </div>
                 )}

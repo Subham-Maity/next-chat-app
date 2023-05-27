@@ -44,10 +44,12 @@ const MessagesContainer = () => {
 
 	return (
 		// add dark theme and rounded corners to the container
-		<div className="flex-1 h-screen flex flex-col rounded-lg">
+		<div className="overflow-y-scroll p-4 flex-grow mx-auto md:w-2/3 lg:w-1/2 my-scrollbar bg-stone-900/25 rounded-2xl mt-4 mb-2">
+			<div className="flex-1 h-screen flex flex-col rounded-lg">
+				<div className="mb-20"></div>
 
-			{/* add flexbox utilities to center and margin the message box */}
-			<div className="overflow-y-scroll p-4 flex-grow mx-auto md:w-2/3 lg:w-1/2 my-scrollbar">
+				{/* add flexbox utilities to center and margin the message box */}
+
 				{messages?.map(({ message, username, time }, index) => (
 					// use motion component to animate each message
 					<motion.div
@@ -59,24 +61,24 @@ const MessagesContainer = () => {
 						// add flexbox utilities to align messages horizontally
 						style={{ display: "flex", justifyContent: username === "You" ? "flex-end" : "flex-start" }}
 					>
+
 						<div>
               <span className="text-sm">
                 {username} - {time}
               </span>
 							{/* change the text color and shape */}
-							<div className="text-base bg-gray-800 text-gray-200 rounded-lg p-2 shadow-lg">{message}</div>
+
+							<div className=" text-base bg-gray-800 text-gray-200 rounded-lg p-2 shadow-lg">{message}</div>
 						</div>
 					</motion.div>
 				))}
 				<div ref={messagesEndRef} />
 			</div>
-
-
-			{/* add CSS properties to fix the position of the message box */}
-			<div className="bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-300/50 to-indigo-900/45 p-4 border-t border-cyan-400 flex items-center" >
+			{/* message box */}
+			<div className="bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-300/50 to-indigo-900/45 p-4 border-t border-cyan-400 flex items-center pointer-events-none " style={{position: "fixed", bottom: 0}}>
 
 				<motion.textarea
-					className="w-full p-4 text-base rounded-lg shadow-lg bg-stone-300"
+					className="w-full p-4 text-base rounded-lg shadow-lg bg-stone-300 pointer-events-auto"
 					placeholder="Type a message..."
 					rows={1}
 					ref={newMessageRef}
@@ -88,7 +90,7 @@ const MessagesContainer = () => {
 
 				<motion.button
 					onClick={handleMessageSend}
-					className="px-12 py-5 ml-2 text-stone-300 bg-cyan-500 rounded-lg"
+					className="px-12 py-5 ml-2 text-stone-300 bg-cyan-500 rounded-lg pointer-events-auto"
 					initial={{ scale: 0 }} // initial state of scale
 					animate={{ scale: 1 }} // final state of scale
 					transition={{ duration: 0.5 }} // duration of animation
@@ -97,9 +99,11 @@ const MessagesContainer = () => {
 					<FiSend />
 				</motion.button>
 			</div>
+
+
+
 		</div>
 	);
 };
 
 export default MessagesContainer;
-

@@ -6,6 +6,7 @@ import RoomsContainer from "@/app/containers/Rooms";
 import { useSocket } from "@/app/context/socket.context";
 import { useEffect, useRef } from "react";
 import EVENTS from "@/app/config/events";
+import Sender from "@/app/containers/Sender"; // import motion component from Framer Motion
 export default function Home() {
   const { socket, username, setUsername, timer } = useSocket(); // Add timer here
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -69,6 +70,7 @@ export default function Home() {
                     </div>
                 )}
                 <MessagesContainer />
+                <Sender />
               </div>
             </div>
         )}

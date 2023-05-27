@@ -1,4 +1,5 @@
 'use client';
+
 import EVENTS from "@/app/config/events";
 import { useSocket } from "@/app/context/socket.context";
 import { useEffect, useRef } from "react";
@@ -6,7 +7,8 @@ import { FiSend } from "react-icons/fi"; // import send icon from React Icon Lib
 import { motion } from "framer-motion"; // import motion component from Framer Motion
 
 const MessagesContainer = () => {
-	const { messages, socket, roomId, username, setMessages } = useSocket();
+	const { messages, socket, roomId, username, setMessages, setTimer } =
+		useSocket();
 	const newMessageRef = useRef<HTMLTextAreaElement>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -23,16 +25,7 @@ const MessagesContainer = () => {
 			username,
 		});
 
-		const date = new Date();
-
-		setMessages([
-			...(messages as any),
-			{
-				message,
-				username: "You",
-				time: `${date.getHours()}:${date.getMinutes()}`,
-			},
-		]);
+		// No need to add the message to the state here as it will be added when received from the server
 
 		newMessageRef.current!.value = "";
 	}
@@ -43,19 +36,23 @@ const MessagesContainer = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [messages]);
 
+	useEffect(() => {
+		// No need to prompt user for timer value here as it will be done in RoomsContainer
+	}, [roomId, socket]);
+
 	if (!roomId) return <div />;
 
 	return (
 		// add dark theme and rounded corners to the container
-		<div className="flex-1 h-screen flex flex-col bg-gray-900 rounded-lg">
+		<div className="flex-1 h-screen flex flex-col rounded-lg">
 
 			{/* add flexbox utilities to center and margin the message box */}
-			<div className="overflow-y-scroll p-4 flex-grow mx-auto md:w-2/3 lg:w-1/2">
+			<div className="overflow-y-scroll p-4 flex-grow mx-auto md:w-2/3 lg:w-1/2 my-scrollbar">
 				{messages?.map(({ message, username, time }, index) => (
 					// use motion component to animate each message
 					<motion.div
 						key={index}
-						className="bg-white rounded mb-4 p-4 border"
+						className="bg-stone-300 rounded-b-2xl mb-4 p-4 border"
 						initial={{ opacity: 0 }} // initial state of opacity
 						animate={{ opacity: 1 }} // final state of opacity
 						transition={{ duration: 0.5 }} // duration of animation
@@ -75,10 +72,11 @@ const MessagesContainer = () => {
 			</div>
 
 
-			<div className="bg-purple-500 p-4 border-t border-purple-600 flex items-center">
+			{/* add CSS properties to fix the position of the message box */}
+			<div className="bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-300/50 to-indigo-900/45 p-4 border-t border-cyan-400 flex items-center" >
 
 				<motion.textarea
-					className="w-full p-4 text-base rounded-lg shadow-lg bg-gray-100"
+					className="w-full p-4 text-base rounded-lg shadow-lg bg-stone-300"
 					placeholder="Type a message..."
 					rows={1}
 					ref={newMessageRef}
@@ -90,7 +88,7 @@ const MessagesContainer = () => {
 
 				<motion.button
 					onClick={handleMessageSend}
-					className="px-4 py-2 ml-2 text-white bg-blue-500 rounded-lg"
+					className="px-12 py-5 ml-2 text-stone-300 bg-cyan-500 rounded-lg"
 					initial={{ scale: 0 }} // initial state of scale
 					animate={{ scale: 1 }} // final state of scale
 					transition={{ duration: 0.5 }} // duration of animation
@@ -104,3 +102,4 @@ const MessagesContainer = () => {
 };
 
 export default MessagesContainer;
+

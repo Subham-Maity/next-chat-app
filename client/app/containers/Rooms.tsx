@@ -107,7 +107,7 @@ const RoomsContainer = () => {
                 </label>
                 <motion.button
                     onClick={handleNewRoom}
-                    className="px-4 py-2 ml-2 text-white bg-cyan-500 rounded-2xl border border-gray-200 shadow-lg gradient-button"
+                    className="px-4 py-2 ml-2 text-white bg-cyan-500 rounded-2xl border border-gray-200 shadow-lg gradient-button flex justify-between"
                     animate={{opacity: showRooms ? 1 : 0}}
                     transition={{duration: 0.5}}
                     whileTap={{scale: 0.9}} // scale down when tapped

@@ -142,22 +142,19 @@ function socket({io}: { io: Server }) {
         });
 
         // Listen for a client sending a message to a room
-        socket.on(
-            EVENTS.CLIENT.SEND_ROOM_MESSAGE,
-            ({roomId, message, username}) => {
-                const time = new Date(); // get the current time
+        socket.on(EVENTS.CLIENT.SEND_ROOM_MESSAGE, ({ roomId, message, username }) => {
+            const time = new Date(); // get the current time
 
-                // emit an event to all clients in the room with this roomId
-                io.to(roomId).emit(EVENTS.SERVER.ROOM_MESSAGE, {
-                    message,
-                    username,
-                    time: `${time.getHours()}:${time.getMinutes()}`,
-                });
+            // Emit the event to all clients in the room except the sender
+            socket.to(roomId).emit(EVENTS.SERVER.ROOM_MESSAGE, {
+                message,
+                username,
+                time: `${time.getHours()}:${time.getMinutes()}`,
+            });
 
-                // Log the message and sender in terminal
-                logger.info(`${username} sent "${message}" in ${rooms[roomId].name}`);
-            }
-        );
+            // Log the message and sender in the terminal
+            logger.info(`${username} sent "${message}" in ${rooms[roomId].name}`);
+        });
 
         socket.on("disconnect", () => {
             console.log("Client disconnected");

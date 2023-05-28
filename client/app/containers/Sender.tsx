@@ -31,7 +31,8 @@ export const Sender = () => {
 
 
         <div
-            className="bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-300/50 to-indigo-900/45 p-4 border-t border-cyan-400 flex items-center pointer-events-none ">
+            className="bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-300/50 to-indigo-900/45 p-4 border-t border-cyan-400 flex items-center pointer-events-none "
+            style={{bottom: 20, borderRadius: "1rem"}}>
 
             <motion.textarea
                 className="w-full p-4 text-base rounded-lg shadow-lg bg-stone-300 pointer-events-auto"

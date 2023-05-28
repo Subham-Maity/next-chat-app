@@ -5,6 +5,7 @@ import {useState, useRef} from "react";
 import {motion} from "framer-motion";
 // Import menu and chevron icons from React Icon Library
 import {FiMenu, FiChevronLeft, FiChevronsRight} from "react-icons/fi";
+import {FiPlus} from "react-icons/fi";
 
 const RoomsContainer = () => {
     const {socket, roomId, rooms} = useSocket();
@@ -100,19 +101,23 @@ const RoomsContainer = () => {
                     <motion.span animate={{opacity: showRooms ? 1 : 0}}
                                  transition={{duration: 0.5}}
                                  className="ml-2">
-                        <input className="mr-2" type="checkbox" ref={checkboxRef}/>
+                        <input className="mr-2 " type="checkbox" ref={checkboxRef}/>
                         Enable timer
                     </motion.span>
                 </label>
                 <motion.button
                     onClick={handleNewRoom}
-                    className="px-4 py-2 ml-2 text-white bg-cyan-500 rounded-lg shadow-lg"
+                    className="px-4 py-2 ml-2 text-white bg-cyan-500 rounded-2xl border border-gray-200 shadow-lg gradient-button"
                     animate={{opacity: showRooms ? 1 : 0}}
                     transition={{duration: 0.5}}
-
+                    whileTap={{scale: 0.9}} // scale down when tapped
                 >
+                    {/* Add a span element with the react-icon class */}
+                    <span className="react-icon"></span>
+                    <FiPlus size={24}/>
                     Create Room
                 </motion.button>
+
 
                 {/* Add div element with flexbox properties */}
                 <div style={{display: "flex", flexDirection: "column", alignItems: "flex-end"}}>
@@ -160,7 +165,7 @@ const RoomsContainer = () => {
                                     title={`Join ${rooms[key].name}`}
                                     onClick={() => handleJoinRoom(key)}
                                     className={`w-full px-4 py-2 ${
-                                        key === roomId ? "bg-gray-500" : "bg-blue-500"
+                                        key === roomId ? "bg-gray-500" : "bg-cyan-500"
                                     } text-white rounded-lg shadow-lg`}
                                 >
                                     {rooms[key].name}

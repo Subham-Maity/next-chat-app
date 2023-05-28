@@ -2,7 +2,9 @@
 
 Chat-app is a **realtime chat application** that lets you talk to anyone in the world. Create and join chat rooms, send messages, and have fun. All you need is a web browser and an internet connection. How cool is that? 😎
 
-This readme file will guide you through chat-app, the technologies behind it, and how you can help make it better. Let's get started!
+
+![5](https://github.com/Subham-Maity/next-mern-chat/assets/97989643/fbf7c8cd-a902-48b4-a532-415d357049b4)
+![7](https://github.com/Subham-Maity/next-mern-chat/assets/97989643/bba4aab9-3a58-4481-a78c-b940ccad1757)
 
 ---
 

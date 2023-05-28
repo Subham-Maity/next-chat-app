@@ -6,8 +6,9 @@ This is a chat application built with `NextJS`, `Socket.io`, and `Typescript`. I
 ![5](https://github.com/Subham-Maity/next-mern-chat/assets/97989643/fbf7c8cd-a902-48b4-a532-415d357049b4)
 ![7](https://github.com/Subham-Maity/next-mern-chat/assets/97989643/bba4aab9-3a58-4481-a78c-b940ccad1757)
 
+
 ---
-## Getting Started 🚀
+## How to run the project locally 📝
 
 To run chat-app on your local machine, you need to have [Node.js](https://nodejs.org/en/) installed. Node.js is a JavaScript runtime that allows you to run JavaScript code on the server side.
 
@@ -19,7 +20,29 @@ First, clone this repository to your local machine:
 git clone https://github.com/Subham-Maity/next-mern-chat.git
 ```
 
-Then, navigate to the backend folder and install the dependencies:
+Then, navigate to the root folder and run the following command:
+
+```bash
+npm run dev
+
+# or
+
+yarn dev
+```
+
+This will install the dependencies and start both the servers in parallel using `concurrently`.
+
+The backend server will run on port 5002 by default. You can change this in the `backend/config/default.ts` file.
+
+The frontend server will run on port 3000 by default. You can change this in the `frontend/config/default.ts` file.
+
+That's it! You can now open your browser and go to `http://localhost:3000` to see chat-app in action. 🎉
+
+### Alternatively, 
+
+   you can also run the servers separately by following these steps:
+
+- Navigate to the backend folder and install the dependencies:
 
 ```bash
 cd backend
@@ -30,7 +53,7 @@ npm install
 yarn install
 ```
 
-Next, start the backend server:
+- Start the backend server:
 
 ```bash
 npm run dev
@@ -40,9 +63,7 @@ npm run dev
 yarn dev
 ```
 
-The backend server will run on port 5002 by default. You can change this in the `backend/config/default.ts` file.
-
-Now, open another terminal window and navigate to the frontend folder. Install the dependencies and start the frontend server:
+- Open another terminal window and navigate to the frontend folder. Install the dependencies and start the frontend server:
 > Make sure server should be running on port 5002 before starting frontend server
 
 ```bash
@@ -60,9 +81,8 @@ npm run dev
 yarn dev
 ```
 
-The frontend server will run on port 3000 by default. You can change this in the `fontend/config/default.ts` file.
 
-That's it! You can now open your browser and go to `http://localhost:3000` to see chat-app in action. 🎉
+
 
 
 

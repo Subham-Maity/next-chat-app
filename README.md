@@ -271,8 +271,8 @@ This event is emitted by the server when a conversation ends in a room. It sends
 
 If you like chat-app and want to contribute to its development, you are more than welcome! Here are some ways you can help:
 
-- Report any bugs or issues you find on the [issues page](https://github.com/Subham-Maity/next-mern-chat.git/issues).
-- Suggest new features or improvements on the [issues page](https://github.com/Subham-Maity/next-mern-chat.git/issues).
+- Report any bugs or issues you find on the [issues page](https://github.com/Subham-Maity/next-mern-chat/issues).
+- Suggest new features or improvements on the [issues page](https://github.com/Subham-Maity/next-mern-chat/issues).
 - Fork this repository and submit pull requests with your code changes.
 - Share chat-app with your friends and spread the word.
 

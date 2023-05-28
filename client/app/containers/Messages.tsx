@@ -1,77 +1,68 @@
+'use client';
+
 import EVENTS from "@/app/config/events";
-import { useSocket } from "@/app/context/socket.context";
-import { useEffect, useRef } from "react";
+import {useSocket} from "@/app/context/socket.context";
+import {useEffect, useRef} from "react";
+import {FiSend} from "react-icons/fi"; // import send icon from React Icon Library
+import {motion} from "framer-motion";
+
 
 const MessagesContainer = () => {
-	const { messages, socket, roomId, username, setMessages, setTimer } =
-		useSocket();
-	const newMessageRef = useRef<HTMLTextAreaElement>(null);
-	const messagesEndRef = useRef<HTMLDivElement>(null);
+    const {messages, socket, roomId} =
+        useSocket();
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
-	function handleMessageSend() {
-		const message = newMessageRef.current?.value;
 
-		if (!String(message).trim()) {
-			return;
-		}
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
 
-		socket.emit(EVENTS.CLIENT.SEND_ROOM_MESSAGE, {
-			roomId,
-			message,
-			username,
-		});
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messages]);
 
-		// No need to add the message to the state here as it will be added when received from the server
+    useEffect(() => {
+        // No need to prompt user for timer value here as it will be done in RoomsContainer
+    }, [roomId, socket]);
 
-		newMessageRef.current!.value = "";
-	}
+    if (!roomId) return <div/>;
 
-	useEffect(() => {
-		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    return (
+        // add dark theme and rounded corners to the container
+        <div
+            className="overflow-y-scroll p-4 flex-grow mx-auto md:w-2/3 lg:w-1/2 my-scrollbar bg-stone-900/25 rounded-2xl mt-4 mb-2">
+            <div className="flex-1 h-screen flex flex-col rounded-lg">
+                <div className="mb-20"></div>
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [messages]);
+                {/* add flexbox utilities to center and margin the message box */}
 
-	useEffect(() => {
-		// No need to prompt user for timer value here as it will be done in RoomsContainer
-	}, [roomId, socket]);
+                {messages?.map(({message, username, time}, index) => (
+                    // use motion component to animate each message
+                    <motion.div
+                        key={index}
+                        className="bg-stone-300 rounded-b-2xl mb-4 p-4 border"
+                        initial={{opacity: 0}} // initial state of opacity
+                        animate={{opacity: 1}} // final state of opacity
+                        transition={{duration: 0.5}} // duration of animation
+                        // add flexbox utilities to align messages horizontally
+                        style={{display: "flex", justifyContent: username === "You" ? "flex-end" : "flex-start"}}
+                    >
 
-	if (!roomId) return <div />;
-
-	return (
-		<div className="flex-1 h-screen flex flex-col">
-			<div className="overflow-y-scroll p-4 flex-grow">
-				{messages?.map(({ message, username, time }, index) => (
-					<div key={index} className="bg-white rounded mb-4 p-4 border">
-						<div>
+                        <div>
               <span className="text-sm">
                 {username} - {time}
               </span>
-							<div className="text-base">{message}</div>
-						</div>
-					</div>
-				))}
-				<div ref={messagesEndRef} />
-			</div>
+                            {/* change the text color and shape */}
 
-			<div className="bg-purple-500 p-4">
-        <textarea
-			className="w-full p-4 text-base rounded"
-			placeholder="Type a message..."
-			rows={1}
-			ref={newMessageRef}
-		/>
-			</div>
+                            <div
+                                className=" text-base bg-gray-800 text-gray-200 rounded-lg p-2 shadow-lg">{message}</div>
+                        </div>
+                    </motion.div>
+                ))}
+                <div ref={messagesEndRef}/>
+            </div>
 
-			<button
-				onClick={handleMessageSend}
-				className="px-4 py-2 mt-2 text-white bg-blue-500 rounded"
-			>
-				Send
-			</button>
-		</div>
-	);
+
+        </div>
+    );
 };
 
 export default MessagesContainer;
-

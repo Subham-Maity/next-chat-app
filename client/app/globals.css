@@ -3,7 +3,22 @@
 @tailwind utilities;
 
 
-
 body {
-	background-color: #333333;
+    background: linear-gradient(#24363d 30%, #203e43);
+    /*background: rgb(0, 44, 63);*/
 }
+
+.my-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+}
+
+.my-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.my-scrollbar::-webkit-scrollbar-thumb {
+    background-color: linear-gradient(#002c3f 30%, #435b62);
+}
+

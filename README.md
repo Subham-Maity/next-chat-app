@@ -6,6 +6,9 @@ Chat-app is a **realtime chat application** that lets you talk to anyone in the 
 ![5](https://github.com/Subham-Maity/next-mern-chat/assets/97989643/fbf7c8cd-a902-48b4-a532-415d357049b4)
 ![7](https://github.com/Subham-Maity/next-mern-chat/assets/97989643/bba4aab9-3a58-4481-a78c-b940ccad1757)
 
+
+
+
 ---
 
 ## Getting Started 🚀
@@ -65,7 +68,18 @@ The frontend server will run on port 3000 by default. You can change this in the
 
 That's it! You can now open your browser and go to `http://localhost:3000` to see chat-app in action. 🎉
 
+
+
+https://github.com/Subham-Maity/next-mern-chat/assets/97989643/abb58584-e819-4976-8ca8-a57396807cdd
+
+
+
+
 ---
+
+
+
+
 
 ## Built With 🛠️
 

@@ -8,9 +8,10 @@ import {motion} from "framer-motion";
 
 
 const MessagesContainer = () => {
-    const {messages, socket, roomId} =
+    const {messages, socket, username , roomId, setMessages } =
         useSocket();
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const newMessageRef = useRef<HTMLTextAreaElement>(null);
 
 
     useEffect(() => {

@@ -7,7 +7,7 @@ import {useEffect, useRef} from "react";
 import EVENTS from "@/app/config/events";
 import Sender from "@/app/containers/Sender"; // import motion component from Framer Motion
 export default function Home() {
-    const {socket, username, setUsername, timer} = useSocket(); // Add timer here
+    const {socket, username, setUsername, timer, roomId} = useSocket(); // Add timer and roomId here
     const usernameRef = useRef<HTMLInputElement>(null);
 
     function handleUsername() {
@@ -68,11 +68,11 @@ export default function Home() {
                             </div>
                         )}
                         <MessagesContainer/>
-                        <Sender/> {/* Moved the Sender component here */}
+                        {/* Add a condition to render Sender component only when roomId is not null or undefined */}
+                        {roomId && <Sender/>}
                     </div>
                 </div>
             )}
         </div>
     );
 }
-

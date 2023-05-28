@@ -1,8 +1,13 @@
 {
   "devDependencies": {
-    "concurrently": "^8.0.1"
+    "concurrently": "^8.0.1",
+    "lerna": "^6.6.2"
   },
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\""
-  }
+    "dev": "lerna run dev --parallel"
+  },
+  "name": "next-mern-chat",
+  "workspaces": [
+    "packages/*"
+  ]
 }

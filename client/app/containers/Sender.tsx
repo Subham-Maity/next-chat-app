@@ -1,12 +1,12 @@
-import { motion } from "framer-motion";
-import { FiSend } from "react-icons/fi";
-import { useRef } from "react";
+import {motion} from "framer-motion";
+import {FiSend} from "react-icons/fi";
+import {useRef} from "react";
 import EVENTS from "@/app/config/events";
-import { useSocket } from "@/app/context/socket.context";
+import {useSocket} from "@/app/context/socket.context";
 
 export const Sender = () => {
     const newMessageRef = useRef<HTMLTextAreaElement>(null);
-    const { messages, socket, roomId, username, setMessages } = useSocket();
+    const {messages, socket, roomId, username, setMessages} = useSocket();
 
     function handleMessageSend() {
         const message = newMessageRef.current?.value;
@@ -50,21 +50,21 @@ export const Sender = () => {
                 placeholder="Type a message..."
                 rows={1}
                 ref={newMessageRef}
-                initial={{ scale: 0 }} // initial state of scale
-                animate={{ scale: 1 }} // final state of scale
-                transition={{ duration: 0.5 }} // duration of animation
-                whileTap={{ scale: 0.9 }} // scale down when tapped
+                initial={{scale: 0}} // initial state of scale
+                animate={{scale: 1}} // final state of scale
+                transition={{duration: 0.5}} // duration of animation
+                whileTap={{scale: 0.9}} // scale down when tapped
             />
 
             <motion.button
                 onClick={handleMessageSend}
                 className="px-12 py-5 ml-2 text-stone-300 bg-cyan-500 rounded-lg pointer-events-auto"
-                initial={{ scale: 0 }} // initial state of scale
-                animate={{ scale: 1 }} // final state of scale
-                transition={{ duration: 0.5 }} // duration of animation
-                whileTap={{ scale: 0.9 }} // scale down when tapped
+                initial={{scale: 0}} // initial state of scale
+                animate={{scale: 1}} // final state of scale
+                transition={{duration: 0.5}} // duration of animation
+                whileTap={{scale: 0.9}} // scale down when tapped
             >
-                <FiSend />
+                <FiSend/>
             </motion.button>
         </div>
     );

@@ -8,7 +8,7 @@ import {motion} from "framer-motion";
 
 
 const MessagesContainer = () => {
-    const {messages, socket, username , roomId, setMessages } =
+    const {messages, socket, username, roomId, setMessages} =
         useSocket();
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const newMessageRef = useRef<HTMLTextAreaElement>(null);

@@ -142,7 +142,7 @@ function socket({io}: { io: Server }) {
         });
 
         // Listen for a client sending a message to a room
-        socket.on(EVENTS.CLIENT.SEND_ROOM_MESSAGE, ({ roomId, message, username }) => {
+        socket.on(EVENTS.CLIENT.SEND_ROOM_MESSAGE, ({roomId, message, username}) => {
             const time = new Date(); // get the current time
 
             // Emit the event to all clients in the room except the sender

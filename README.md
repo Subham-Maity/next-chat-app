@@ -1,16 +1,27 @@
+
 # NextJS ChatApp 🗣️
 
-This is a chat application built with `NextJS`, `Socket.io`, and `Typescript`. It allows users to create and join chat rooms, send messages, and set timers for conversations. It has a user-friendly and good-looking UI that enhances the chat experience. This project is an improved version of my previous `Demo chat app with basic timer functionality using html and nodejs`, which you can check out [**here**](https://github.com/Subham-Maity/basic-chatapp). I used `Typescript` to make the code more readable, understandable, and easy to implement new features in the future.
-
-
 ![5](https://github.com/Subham-Maity/next-mern-chat/assets/97989643/fbf7c8cd-a902-48b4-a532-415d357049b4)
+
 ![7](https://github.com/Subham-Maity/next-mern-chat/assets/97989643/bba4aab9-3a58-4481-a78c-b940ccad1757)
 
-I'm sorry for the mistakes. I can fix them. Here is another version:
+## Description
 
+This is a chat application built with `NextJS`, `Socket.io`, and `Typescript`. It allows users to create and join chat rooms, send messages, and set timers for conversations. It has a user-friendly and good-looking UI that enhances the chat experience.
 
----
-## How to run the project locally 📝
+## Motivation
+
+I created this project because I wanted to learn how to use `NextJS` and `Socket.io` together to build a real-time application. I also wanted to improve my skills in `Typescript and NodeJs` and `NextJS`. This project solves the problem of having a simple and easy way to communicate with other people online.
+
+## Table of Contents
+
+- [How to run the project locally](#how-to-run-the-project-locally)
+- [How to contribute](#how-to-contribute)
+- [Built with](#built-with)
+- [Backend](#backend-)
+- [Learn more](#learn-more)
+
+## How to run the project locally
 
 To run chat-app on your local machine, you need to have [Node.js](https://nodejs.org/en/) installed. Node.js is a JavaScript runtime that allows you to run JavaScript code on the server side.
 
@@ -89,34 +100,8 @@ npm run dev
 yarn dev
 ```
 
-
-
-
-
-
 https://github.com/Subham-Maity/next-mern-chat/assets/97989643/abb58584-e819-4976-8ca8-a57396807cdd
 
-
-
-
----
-
-
-
-
-
-## Built With 🛠️
-
-Chat-app is built with some of the most popular and powerful technologies in web development. Here are some of them:
-
-- [Node.js](https://nodejs.org/en/) - JavaScript runtime
-- [Express](https://expressjs.com/) - Web framework for Node.js
-- [Socket.io](https://socket.io/) - Realtime application framework
-- [Next.js](https://nextjs.org/) - React framework for production
-- [React](https://reactjs.org/) - JavaScript library for building user interfaces
-- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript at Any Scale
-
-These technologies allow me to create a fast, scalable, and user-friendly chat application that works across different devices and browsers.
 
 ---
 
@@ -294,8 +279,7 @@ This event is emitted by the server when a conversation ends in a room. It sends
 
 
 ---
-
-## How to Contribute 💪
+## How to contribute
 
 If you like chat-app and want to contribute to its development, you are more than welcome! Here are some ways you can help:
 
@@ -306,23 +290,20 @@ If you like chat-app and want to contribute to its development, you are more tha
 
 Any feedback or support is greatly appreciated. Thank you for your interest in chat-app! ❤️
 
----
+## Built with
 
-## Learn More 📚
+Chat-app is built with some of the most popular and powerful technologies in web development. Here are some of them:
 
-If you want to learn more about the technologies I used to build chat-app, here are some useful resources:
+- [Node.js](https://nodejs.org/en/) - JavaScript runtime
+- [Express](https://expressjs.com/) - Web framework for Node.js
+- [Socket.io](https://socket.io/) - Realtime application framework
+- [Next.js](https://nextjs.org/) - React framework for production
+- [React](https://reactjs.org/) - JavaScript library for building user interfaces
+- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript at Any Scale
 
-- [Node.js Documentation](https://nodejs.org/en/docs/)
-- [Express Documentation](https://expressjs.com/en/4x/api.html)
-- [Socket.io Documentation](https://socket.io/docs/v4)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [React Documentation](https://reactjs.org/docs/getting-started.html)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+These technologies allow me to create a fast, scalable, and user-friendly chat application that works across different devices and browsers.
 
-You can also check out some of my other projects on my [GitHub profile](https://github.com/Subham-Maity).
+## Learn more
 
----
+If you want to learn more about me or my other projects, you can check out my [GitHub profile](https://github.com/Subham-Maity) or join the [Discord Server](https://discord.gg/akw4AxyE). You can also read my blog posts on [DEV Community](https://dev.to/codexam) and [Hashnode](https://codexam.hashnode.dev/).
 
-### Give a Star ⭐
-
-If you like chat-app and find it useful, please consider giving it a star on GitHub. It would mean a lot to me and motivate me to keep working on it. Thank you! 😊

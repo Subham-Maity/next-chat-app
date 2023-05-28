@@ -1,16 +1,12 @@
 # NextJS ChatApp 🗣️
 
-Chat-app is a **realtime chat application** that lets you talk to anyone in the world. Create and join chat rooms, send messages, and have fun. All you need is a web browser and an internet connection. How cool is that? 😎
+This is a chat application built with `NextJS`, `Socket.io`, and `Typescript`. It allows users to create and join chat rooms, send messages, and set timers for conversations. It has a user-friendly and good-looking UI that enhances the chat experience. This project is an improved version of my previous `Demo chat app with basic timer functionality using html and nodejs`, which you can check out [**here**](https://github.com/Subham-Maity/basic-chatapp). I used `Typescript` to make the code more readable, understandable, and easy to implement new features in the future.
 
 
 ![5](https://github.com/Subham-Maity/next-mern-chat/assets/97989643/fbf7c8cd-a902-48b4-a532-415d357049b4)
 ![7](https://github.com/Subham-Maity/next-mern-chat/assets/97989643/bba4aab9-3a58-4481-a78c-b940ccad1757)
 
-
-
-
 ---
-
 ## Getting Started 🚀
 
 To run chat-app on your local machine, you need to have [Node.js](https://nodejs.org/en/) installed. Node.js is a JavaScript runtime that allows you to run JavaScript code on the server side.
@@ -98,49 +94,177 @@ These technologies allow me to create a fast, scalable, and user-friendly chat a
 
 ## Backend 🧠
 
-The backend server is responsible for handling the socket connections and emitting events to the frontend. It is built using Node.js, Express, and Socket.io.
 
-### [Events](./frontend/config/events.ts) ⚡
+The chat application uses Socket.io to communicate between the frontend and the backend using events. Events are messages that are emitted or received by the server or the client. Here are some of the events that are used in this application:
 
-The backend server uses Socket.io to communicate with the frontend using events. Here are some of the events that are used in chat-app:
+#### `connection` 🔗
 
-#### `join` 🔗
+This event is emitted by the server when a new client connects to it. It also sets up listeners for other events from the client.
 
-Emitted when a user joins a room.
+#### `CLIENT.CREATE_ROOM` 🏠
 
-##### Payload 📦
-
-```typescript
-{
- roomId: string;
-}
-```
-
-#### `send message` 💬
-
-Emitted when a user sends a new message.
+This event is emitted by the client when it wants to create a new room. The server will create the room and emit a `SERVER.ROOMS` event with the updated list of rooms.
 
 ##### Payload 📦
 
 ```typescript
 {
- time: string;
- roomId: string;
- message: string;
+  roomName: string;
 }
 ```
 
-#### `create new room` 🏠
+#### `CLIENT.JOIN_ROOM` 🔗
 
-Emitted when a user creates a new room.
+This event is emitted by the client when it wants to join an existing room. The server will add the client to the room and emit a `SERVER.JOINED_ROOM` event with the room details.
 
 ##### Payload 📦
 
 ```typescript
 {
- roomName: string;
+  roomId: string;
 }
 ```
+
+#### `CLIENT.SEND_ROOM_MESSAGE` 💬
+
+This event is emitted by the client when it wants to send a new message to a room. The server will broadcast the message to all clients in the room and emit a `SERVER.ROOM_MESSAGE` event with the message details.
+
+##### Payload 📦
+
+```typescript
+{
+  time: string;
+  roomId: string;
+  message: string;
+}
+```
+
+#### `CLIENT.SET_TIMER` ⏰
+
+This event is emitted by the client when it wants to set a timer for a room. The server will start a countdown and emit a `SERVER.TIMER_SET` event with the timer details.
+
+##### Payload 📦
+
+```typescript
+{
+  time: number;
+}
+```
+
+#### `CLIENT.REQUEST_TIMER` ⏰
+
+This event is emitted by the client when it wants to request the current timer for a room. The server will emit a `SERVER.TIMER_UPDATE` event with the timer details.
+
+##### Payload 📦
+
+```typescript
+{
+  roomId: string;
+}
+```
+
+#### `disconnect` ❌
+
+This event is emitted by the client when it disconnects from the server. The server will remove the client from any rooms and emit a `SERVER.CONVERSATION_ENDED` event if the room becomes empty.
+
+##### Payload 📦
+
+```typescript
+{
+  roomId: string;
+}
+```
+
+#### `SERVER.ROOMS` 🏠
+
+This event is emitted by the server when there is a change in the list of rooms. It sends an array of rooms with their names and ids.
+
+##### Payload 📦
+
+```typescript
+[
+  {
+    id: string;
+    name: string;
+  },
+  ...
+]
+```
+
+#### `SERVER.JOINED_ROOM` 🔗
+
+This event is emitted by the server when a client joins a room. It sends an object with the room id, name, and an array of messages.
+
+##### Payload 📦
+
+```typescript
+{
+  id: string;
+  name: string;
+  messages: [
+    {
+      time: string;
+      message: string;
+    },
+    ...
+  ]
+}
+```
+
+#### `SERVER.ROOM_MESSAGE` 💬
+
+This event is emitted by the server when a new message is sent to a room. It sends an object with the room id, time, and message.
+
+##### Payload 📦
+
+```typescript
+{
+  roomId: string;
+  time: string;
+  message: string;
+}
+```
+
+#### `SERVER.TIMER_SET` ⏰
+
+This event is emitted by the server when a timer is set for a room. It sends an object with the room id and time.
+
+##### Payload 📦
+
+```typescript
+{
+  roomId: string;
+  time: number;
+}
+```
+
+#### `SERVER.TIMER_UPDATE` ⏰
+
+This event is emitted by the server when there is an update on the timer for a room. It sends an object with the room id and time.
+
+##### Payload 📦
+
+```typescript
+{
+  roomId: string;
+  time: number;
+}
+```
+
+#### `SERVER.CONVERSATION_ENDED` ❌
+
+This event is emitted by the server when a conversation ends in a room. It sends an object with the room id.
+
+##### Payload 📦
+
+```typescript
+{
+  roomId: string;
+}
+```
+
+
+
 ---
 
 ## How to Contribute 💪
@@ -171,6 +295,6 @@ You can also check out some of my other projects on my [GitHub profile](https://
 
 ---
 
-## Give a Star ⭐
+### Give a Star ⭐
 
 If you like chat-app and find it useful, please consider giving it a star on GitHub. It would mean a lot to me and motivate me to keep working on it. Thank you! 😊

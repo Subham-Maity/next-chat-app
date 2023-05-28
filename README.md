@@ -13,6 +13,12 @@ This is a chat application built with `NextJS`, `Socket.io`, and `Typescript`. I
 
 I created this project because I wanted to learn how to use `NextJS` and `Socket.io` together to build a real-time application. I also wanted to improve my skills in `Typescript and NodeJs` and `NextJS`. This project solves the problem of having a simple and easy way to communicate with other people online.
 
+This project is an improved version of my previous `Demo chat app with basic timer functionality using html and nodejs`, which you can check out [**here**](https://github.com/Subham-Maity/basic-chatapp). The main differences are:
+
+- This project uses `NextJS and NodeJS` as a React framework for production, which provides features such as server-side rendering, code splitting, and routing.
+- This project uses `Typescript` to make the code more readable, understandable, and easy to implement new features in the future.
+- This project has a user-friendly and good-looking UI that enhances the chat experience.
+
 ## Table of Contents
 
 - [How to run the project locally](#how-to-run-the-project-locally)

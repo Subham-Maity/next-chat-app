@@ -22,6 +22,10 @@ interface SocketContext {
     setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
     timer?: number | null; // Change this line
     setTimer: React.Dispatch<React.SetStateAction<number | null>>; // Change this line
+    amount?: number | null; // Add this line
+    setAmount: React.Dispatch<React.SetStateAction<number | null>>; // Add this line
+    balance?: number | null; // Add this line
+    setBalance: React.Dispatch<React.SetStateAction<number | null>>; // Add this line
 }
 
 interface Props {
@@ -31,15 +35,16 @@ interface Props {
 export const socket = io(SOCKET_URL);
 export const SocketContext = createContext<SocketContext>({
     socket,
-    setUsername: () => {
-    },
+    setUsername: () => {},
     rooms: {},
     messages: [],
-    setMessages: () => {
-    },
+    setMessages: () => {},
     timer: null,
-    setTimer: () => {
-    },
+    setTimer: () => {},
+    amount: null, // Add this line
+    setAmount: () => {}, // Add this line
+    balance: null, // Add this line
+    setBalance: () => {}, // Add this line
 });
 
 export const SocketProvider = ({children}: Props) => {
@@ -48,6 +53,44 @@ export const SocketProvider = ({children}: Props) => {
     const [rooms, setRooms] = useState({});
     const [messages, setMessages] = useState<Message[]>([]);
     const [timer, setTimer] = useState<number | null>(null); // Change this line
+    const [amount, setAmount] = useState<number | null>(null); // Add this line
+    const [balance, setBalance] = useState<number | null>(null); // Add this line
+
+    function convertAmountToSeconds(amount: number) {
+        return amount;
+    }
+
+// Add a function to calculate time-based amount based on a fixed rate (1 sec = 1/-)
+    function calculateTimeBasedAmount(seconds: number) {
+        return seconds;
+    }
+
+// Add a function to calculate current balance based on entered amount and time-based amount
+    function calculateCurrentBalance(amount: number, timeBasedAmount: number) {
+        return amount - timeBasedAmount;
+    }
+
+// Add a function to handle the wallet button click
+    function handleWallet() {
+        // Get the amount value from the input ref
+        const value = amountRef.current?.value || "";
+
+        // Check if the value is valid and positive
+        if (Number(value) > 0) {
+            // Set the amount state variable to the value
+            setAmount(Number(value));
+
+            // Set the balance state variable to the value
+            setBalance(Number(value));
+
+            // Emit an event to the server with the amount value
+            socket.emit(EVENTS.CLIENT.SET_AMOUNT, Number(value));
+        } else {
+            // Alert the user that the value is invalid or negative
+            alert("Please enter a valid and positive amount.");
+        }
+    }
+
 
     socket.on(EVENTS.SERVER.ROOMS, (name: string) => {
         setRooms(name);
@@ -98,7 +141,12 @@ export const SocketProvider = ({children}: Props) => {
                 setMessages,
                 timer,
                 setTimer,
-            }}>
+                amount, // Add this line
+                setAmount, // Add this line
+                balance, // Add this line
+                setBalance, // Add this line
+            }}
+        >
             {children}
         </SocketContext.Provider>
     );

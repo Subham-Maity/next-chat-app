@@ -1,6 +1,30 @@
 import {nanoid} from "nanoid";
-import {Server, Socket} from "socket.io";
+import {Server, Socket, ServerOptions} from "socket.io";
 import logger from "./utils/logger";
+
+// Import message service
+import * as messageService from '../services/message.service';
+
+// Import room service
+import * as roomService from '../services/room.service';
+
+// Import config
+import config from '../config/default';
+
+
+const corsOrigin = config.corsOrigin;
+
+// Create a new socket.io server instance
+// Using a type assertion
+const io = new Server({
+    port: config.port,
+    cors: {
+        origin: corsOrigin,
+        credentials: true,
+    },
+} as Partial<ServerOptions>);
+
+
 
 const EVENTS = {
     connection: "connection",

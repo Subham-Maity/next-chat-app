@@ -112,7 +112,25 @@ async function deleteRoomById(roomId: string): Promise<Room> {
 }
 
 // Define function to add a user to a room by id in the database
+// Define function to add a user to a room by id in the database
 async function addUserToRoom(roomId: string, userId: string): Promise<Room> {
     try {
+        // Find a room by id and push the user id to the users array using the room model and $addToSet operator
+        const updatedRoom = await Room.findByIdAndUpdate(roomId, { $addToSet: { users: userId } }, { new: true });
+
+        // If no room is found, throw an error
+        if (!updatedRoom) {
+            throw new Error('Room not found');
+
+        }
+
+        // Return the updated room
+        return updatedRoom;
+
+    } catch (err) {
+        // Throw an error if something goes wrong
+        throw err;
 
     }
+}
+

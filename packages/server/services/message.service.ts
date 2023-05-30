@@ -1,5 +1,6 @@
 // Import message model
 import Message from '../models/message.model';
+import { Document } from 'mongoose';
 
 // Define interface for message data
 interface MessageData {
@@ -14,7 +15,7 @@ interface QueryOptions {
 }
 
 // Define function to create a new message document in the database
-async function createMessage(data: MessageData): Promise<Message> {
+async function createMessage(data: MessageData): Promise<Document> {
     try {
         // Create a new message document using the message model and data object
         const newMessage = new Message(data);
@@ -25,13 +26,11 @@ async function createMessage(data: MessageData): Promise<Message> {
     } catch (err) {
         // Throw an error if something goes wrong
         throw err;
-
     }
 }
 
 // Define function to get all messages for a given room from the database
-// Define function to get all messages for a given room from the database
-async function getMessagesByRoom(roomId: string, options?: QueryOptions): Promise<Message[]> {
+async function getMessagesByRoom(roomId: string, options?: QueryOptions): Promise<Document[]> {
     try {
         // Find the messages that match the room id using the message model
         const messages = await Message.find({ room: roomId });
@@ -47,7 +46,7 @@ async function getMessagesByRoom(roomId: string, options?: QueryOptions): Promis
     } catch (err) {
         // Throw an error if something goes wrong
         throw err;
-
     }
 }
 
+export { createMessage, getMessagesByRoom };

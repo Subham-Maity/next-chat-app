@@ -13,4 +13,7 @@ export default {
 
 	// Use the CORS_ORIGIN environment variable or the default value
 	corsOrigin: process.env.CORS_ORIGIN || "http://localhost:3000",
+
+	// Add a db property to store the MongoDB connection string
+	db: process.env.MONGO_URI ,
 };

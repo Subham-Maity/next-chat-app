@@ -1,4 +1,4 @@
-// Import express
+
 import express from 'express';
 
 // Import room service

@@ -11,7 +11,9 @@
 	"dependencies": {
 		"@types/mongoose": "^5.11.97",
 		"colors": "^1.4.0",
+		"compression": "^1.7.4",
 		"config": "^3.3.9",
+		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
 		"dayjs": "^1.11.7",
 		"dotenv": "^16.0.3",

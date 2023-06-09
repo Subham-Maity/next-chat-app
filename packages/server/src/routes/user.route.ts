@@ -1,26 +1,18 @@
-// Import express
-import express from 'express';
+// Import express router and types
+import { Router } from 'express';
 
-// Import room controller
-import * as roomController from '../controllers/room.controller';
+// Import user controller
+import userController from '../controllers/user.controller';
 
-// Create a new router
-const router = express.Router();
+// Create a router for users
+const router = Router();
 
-// Define GET endpoint for /rooms
-router.get('/rooms', roomController.getRooms);
-
-// Define GET endpoint for /rooms/:id
-router.get('/rooms/:id', roomController.getRoomById);
-
-// Define POST endpoint for /rooms
-router.post('/rooms', roomController.createRoom);
-
-// Define PUT endpoint for /rooms/:id
-router.put('/rooms/:id', roomController.updateRoomById);
-
-// Define DELETE endpoint for /rooms/:id
-router.delete('/rooms/:id', roomController.deleteRoomById);
+// Define routes for users
+router.post('/', userController.createUser); // Create a new user
+router.get('/', userController.getUsers); // Get all users
+router.get('/:userId', userController.getUserById); // Get a user by id
+router.put('/:userId', userController.updateUserById); // Update a user by id
+router.delete('/:userId', userController.deleteUserById); // Delete a user by id
 
 // Export the router
 export default router;

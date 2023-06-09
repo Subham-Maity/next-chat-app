@@ -1,17 +1,18 @@
-// Import express
-import express from 'express';
+
+// Import express router and types
+import { Router } from 'express';
 
 // Import message controller
-import * as messageController from '../controllers/message.controller';
+import messageController from '../controllers/message.controller';
 
-// Create a new router
-const router = express.Router();
+// Create a router for messages
+const router = Router();
 
-// Define GET endpoint for /messages
-router.get('/messages', messageController.getMessages);
+// Define routes for messages
+router.post('/', messageController.createMessage); // Create a new message
+router.get('/:roomId', messageController.getMessagesByRoom); // Get all messages in a room
 
-// Define POST endpoint for /messages
-router.post('/messages', messageController.createMessage);
 
 // Export the router
 export default router;
+

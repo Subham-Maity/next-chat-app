@@ -1,40 +1,110 @@
-// Import express
-import express from 'express';
 
-// Import room service
-import * as roomService from '../../services/room.service';
+// Import express types
+import { Request, Response } from 'express';
 
-// Define function to handle GET request for /rooms endpoint
-async function getRooms(req: express.Request, res: express.Response): Promise<void> {
-    try {
-        // Get all rooms from the database using the room service
-        const rooms = await roomService.getRooms();
+// Import user service
+import userService from '../../services/user.service';
 
-        // Send a success response with the rooms array
-        res.status(200).json(rooms);
+// Create a user controller class
+class UserController {
+    // A method to handle creating a new user
+    async createUser(req: Request, res: Response) {
+        try {
+            // Get the username from the request body
+            const { username } = req.body;
+            // Validate the input
+            if (!username) {
+                return res.status(400).json({message: 'Missing username'});
+            }
+            // Create a new user using the user service
+            const user = await userService.createUser(username);
+            // Return a success response with the created user
+            return res.status(201).json({message: 'User created', data: user});
+        } catch (error) {
+            // Return an error response with the error message
+            return res.status(500).json({message: error.message});
+        }
+    }
 
-    } catch (err) {
-        // Send an error response with the error message
-        res.status(500).send(err.message);
+    // A method to handle getting all users
+    async getUsers(req: Request, res: Response) {
+        try {
+            // Get all users using the user service
+            const users = await userService.getUsers();
+            // Return a success response with the users
+            return res.status(200).json({message: 'Users retrieved', data: users});
+        } catch (error) {
+            // Return an error response with the error message
+            return res.status(500).json({message: error.message});
+        }
+    }
 
+    // A method to handle getting a user by id
+    async getUserById(req: Request, res: Response) {
+        try {
+            // Get the user id from the request params
+            const { userId } = req.params;
+            // Validate the input
+            if (!userId) {
+                return res.status(400).json({message: 'Missing user id'});
+            }
+            // Get a user by id using the user service
+            const user = await userService.getUserById(userId);
+            // Return a success response with the user
+            return res.status(200).json({message: 'User retrieved', data: user});
+        } catch (error) {
+
+            // ... previous code ...
+
+            return res.status(500).json({message: error.message});
+        }
+    }
+
+    // A method to handle updating a user by id
+    async updateUserById(req: Request, res: Response) {
+        try {
+            // Get the user id from the request params
+            const { userId } = req.params;
+            // Get the data from the request body
+            const data = req.body;
+            // Validate the input
+            if (!userId) {
+                return res.status(400).json({message: 'Missing user id'});
+            }
+            if (!data) {
+                return res.status(400).json({message: 'Missing data'});
+            }
+            // Update a user by id using the user service
+            const user = await userService.updateUserById(userId, data);
+            // Return a success response with the updated user
+            return res.status(200).json({message: 'User updated', data: user});
+        } catch (error) {
+            // Return an error response with the error message
+            return res.status(500).json({message: error.message});
+        }
+    }
+
+    // A method to handle deleting a user by id
+    async deleteUserById(req: Request, res: Response) {
+        try {
+            // Get the user id from the request params
+            const { userId } = req.params;
+            // Validate the input
+            if (!userId) {
+                return res.status(400).json({message: 'Missing user id'});
+            }
+            // Delete a user by id using the user service
+            const user = await userService.deleteUserById(userId);
+            // Return a success response with the deleted user
+            return res.status(200).json({message: 'User deleted', data: user});
+        } catch (error) {
+            // Return an error response with the error message
+            return res.status(500).json({message: error.message});
+        }
     }
 }
 
-async function getRoomById(req: express.Request, res: express.Response): Promise<void> {
-    try {
-        // Get the room id from the request parameters
-        const roomId = req.params.id;
+// Export an instance of the user controller class
+export default new UserController();
 
-        // Get a room by id from the database using the room service
-        const room = await roomService.getRoomById(roomId);
-
-        // Send a success response with the room
-        res.status(200).json(room);
-
-    } catch (err) {
-        // Send an error response with the error message
-        res.status(500).send(err.message);
-
-    }
-}
 

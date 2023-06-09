@@ -9,8 +9,6 @@ const roomSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    // A room has a topic field of type String
-    topic: String,
     // A room has a users field that stores an array of users who have joined the room
     users: [{
         type: mongoose.Schema.Types.ObjectId,

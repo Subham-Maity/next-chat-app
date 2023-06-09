@@ -1,7 +1,11 @@
 import config from "config";
 import configs from '../config/default';
 import express from "express";
+import http from "http";
 import {createServer} from "http";
+import cookieParser from "cookie-parser";
+import compression from "compression";
+import bodyParser from "body-parser";
 import {Server} from "socket.io";
 import {version} from "../package.json";
 import logger from "./utils/logger";
@@ -19,7 +23,12 @@ const host = config.get<string>("host");
 const corsOrigin = config.get<string>("corsOrigin");
 
 const app = express()
-app.use(cors());
+app.use(cors({
+    credentials: true,
+}));
+app.use(compression());
+app.use(cookieParser());
+app.use(bodyParser.json())
 app.use(express.json());
 app.use(messageRouter);
 app.use(roomRouter);
@@ -41,6 +50,7 @@ const io = new Server(httpServer, {
 app.get("/", (_, res) => {
     res.send(`Server is up and running version:${version} 🚀`);
 });
+
 
 httpServer.listen(port, host, () => {
     logger.info(

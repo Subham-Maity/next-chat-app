@@ -2,12 +2,12 @@ import config from "config";
 import configs from '../config/default';
 import express from "express";
 import http from "http";
-import {createServer} from "http";
+import { createServer } from "http";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import bodyParser from "body-parser";
-import {Server} from "socket.io";
-import {version} from "../package.json";
+import { Server } from "socket.io";
+import { version } from "../package.json";
 import logger from "./utils/logger";
 import socket from "./socket";
 import mongoose from 'mongoose';
@@ -16,26 +16,24 @@ import messageRouter from '../../server/src/routes/message.route';
 import roomRouter from '../../server/src/routes/room.route';
 import userRouter from '../../server/src/routes/user.route';
 
-
-
 const port = config.get<number>("port");
 const host = config.get<string>("host");
 const corsOrigin = config.get<string>("corsOrigin");
 
-const app = express()
+const app = express();
 app.use(cors({
     credentials: true,
 }));
 app.use(compression());
 app.use(cookieParser());
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(messageRouter);
 app.use(roomRouter);
 app.use(userRouter);
 
 mongoose.connect(configs.db)
-    .then(() => console.log('Connected to MongoDB'))
+    .then(() => console.log('⚡ MongoDB Connected ⚡ Enjoy!'))
     .catch(err => console.error(err));
 
 const httpServer = createServer(app);
@@ -66,5 +64,5 @@ httpServer.listen(port, host, () => {
     );
     logger.info(`http://${host}:${port}`);
 
-    socket({io});
+    socket({ io });
 });

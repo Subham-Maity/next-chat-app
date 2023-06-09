@@ -51,6 +51,14 @@ app.get("/", (_, res) => {
     res.send(`Server is up and running version:${version} 🚀`);
 });
 
+// Use message router with '/messages' path
+app.use('/messages', messageRouter);
+
+// Use room router with '/rooms' path
+app.use('/rooms', roomRouter);
+
+// Use user router with '/users' path
+app.use('/users', userRouter);
 
 httpServer.listen(port, host, () => {
     logger.info(
